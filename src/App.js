@@ -9,6 +9,7 @@ class App extends Component {
     super()
     this.state = {
       messages: [],
+      composeMessage: true,
     }
   }
 
@@ -21,12 +22,25 @@ class App extends Component {
     })
   }
 
+  toggleMessage = () => {
+    if (this.state.composeMessage === true) {
+      this.setState({
+        composeMessage: false
+      })
+    } else {
+        this.setState({
+          composeMessage: true
+        })
+      }
+    }
+
 
   render() {
     return (
       <div className="bodyInbox">
-      <Toolbar />
-      <Message /> 
+      <Toolbar toggleMessage={this.toggleMessage} composeMessage={this.state.composeMessage}/>
+      <Compose composeMessage={this.state.composeMessage}/>
+      <Message messages={this.state.messages}/> 
       </div>
     );
   }
