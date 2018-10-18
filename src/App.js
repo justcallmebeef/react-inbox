@@ -10,6 +10,7 @@ class App extends Component {
     this.state = {
       messages: [],
       composeMessage: true,
+      starMessage: true, 
     }
   }
 
@@ -33,6 +34,18 @@ class App extends Component {
         })
       }
     }
+    
+  starClick = () => {
+    if(this.state.starMessage === true) {
+      this.setState({
+        starMessage: false
+      })
+    } else {
+      this.setState({
+        starMessage: true 
+      })
+    }
+  }
 
 
   render() {
@@ -40,7 +53,7 @@ class App extends Component {
       <div className="bodyInbox">
       <Toolbar toggleMessage={this.toggleMessage} composeMessage={this.state.composeMessage}/>
       <Compose composeMessage={this.state.composeMessage}/>
-      <Message messages={this.state.messages} read={this.state.readStatus}/> 
+      <Message messages={this.state.messages} starMessage={this.state.starMessage} starClick={this.starClick}/> 
       </div>
     );
   }

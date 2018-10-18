@@ -10,8 +10,8 @@ const Message = (props) => {
             <div className="col-xs-2">
                 <input type="checkbox" />
             </div>
-            <div className="col-xs-2">
-                <i className="star fa fa-star"></i>
+            <div className="col-xs-2" onClick={props.starClick}>
+                <i className={`star fa ${props.starMessage ? 'fa-star-o' : 'fa-star'}`}></i>
             </div>
             </div>
         </div>
