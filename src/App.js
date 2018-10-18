@@ -40,7 +40,7 @@ class App extends Component {
       <div className="bodyInbox">
       <Toolbar toggleMessage={this.toggleMessage} composeMessage={this.state.composeMessage}/>
       <Compose composeMessage={this.state.composeMessage}/>
-      <Message messages={this.state.messages}/> 
+      <Message messages={this.state.messages} read={this.state.readStatus}/> 
       </div>
     );
   }

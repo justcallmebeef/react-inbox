@@ -4,7 +4,7 @@ import React from 'react';
 const Message = (props) => {
     return props.messages.map((message) => {
     return (
-        <div className="row message read">
+        <div className={`row message ${message.read ? 'read' : 'unread' }`}>
         <div className="col-xs-1">
             <div className="row">
             <div className="col-xs-2">
