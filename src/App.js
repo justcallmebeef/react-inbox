@@ -16,12 +16,40 @@ class App extends Component {
 
   async componentDidMount() {
     let result = await fetch("http://localhost:8082/api/messages")
-    let data = await result.json()
-    console.log(data)
+    let firstData = await result.json()
+    let data = firstData.map(item => {
+      item.selected = false
+      return item
+    })
     this.setState({
-      messages: data,
+      messages: [...data,]
+    })
+    console.log(data)
+  }
+
+  markStarred = async (event) => {
+    var patch = {
+      messageIds: [event.target.id],
+      command: 'star',
+      star: true,
+    }
+
+    console.log(patch)
+
+    const response = await fetch('http://localhost:8082/api/messages', {
+      method: 'PATCH',
+      body: JSON.stringify(patch),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      }
+    })
+    const posted = await response.json()
+    this.setState({
+      messages: posted
     })
   }
+
 
   toggleMessage = () => {
     if (this.state.composeMessage === true) {
@@ -35,17 +63,17 @@ class App extends Component {
       }
     }
     
-  starClick = () => {
-    if(this.state.starMessage === true) {
-      this.setState({
-        starMessage: false
-      })
-    } else {
-      this.setState({
-        starMessage: true 
-      })
-    }
-  }
+  // starClick = () => {
+  //   if(this.state.starMessage === true) {
+  //     this.setState({
+  //       starMessage: false
+  //     })
+  //   } else {
+  //     this.setState({
+  //       starMessage: true 
+  //     })
+  //   }
+  // }
 
 
   render() {
@@ -53,7 +81,7 @@ class App extends Component {
       <div className="bodyInbox">
       <Toolbar toggleMessage={this.toggleMessage} composeMessage={this.state.composeMessage}/>
       <Compose composeMessage={this.state.composeMessage}/>
-      <Message messages={this.state.messages} starMessage={this.state.starMessage} starClick={this.starClick}/> 
+      <Message messages={this.state.messages} starMessage={this.state.starMessage} markStarred={this.markStarred}/> 
       </div>
     );
   }

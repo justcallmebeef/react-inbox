@@ -11,8 +11,8 @@ const Message = (props) => {
                     <div className="col-xs-2">
                         <input type="checkbox" />
                     </div>
-                    <div className="col-xs-2" onClick={props.starClick}>
-                        <i className={`star fa ${message.starred ? 'fa-star' : 'fa-star-o'}`}></i>
+                    <div className="col-xs-2">
+                        <i id={message.id} onClick={props.markStarred} className={`star fa ${message.starred ? 'fa-star' : 'fa-star-o'}`}></i>
                     </div>
                 </div>
             </div>
