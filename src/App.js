@@ -10,31 +10,25 @@ class App extends Component {
     this.state = {
       messages: [],
       composeMessage: true,
-      starMessage: true, 
+      readMessage: true, 
     }
   }
 
   async componentDidMount() {
     let result = await fetch("http://localhost:8082/api/messages")
-    let firstData = await result.json()
-    let data = firstData.map(item => {
-      item.selected = false
-      return item
-    })
+    let data = await result.json()
     this.setState({
       messages: [...data,]
     })
     console.log(data)
   }
 
-  markStarred = async (event) => {
+  patch = async (id, command, attribute, value) => {
     var patch = {
-      messageIds: [event.target.id],
-      command: 'star',
-      star: true,
+      messageIds: [id],
+      command: command,
+      [attribute]: value,
     }
-
-    console.log(patch)
 
     const response = await fetch('http://localhost:8082/api/messages', {
       method: 'PATCH',
@@ -50,38 +44,49 @@ class App extends Component {
     })
   }
 
+  markStarred = (event) => {
+    this.patch([event.target.id], 'star', 'starred')
+  }
+
+  markSelect = (event) => {
+    this.patch([event.target.id], 'select', 'selected')
+  }
+
+  // deleteMessage = (event) => {
+  //   this.patch([event.target.id], 'delete', '')
+  // }
+
+  messageRead = (event) => {
+    this.patch([event.target.id], 'read', 'read', true)
+  }
+
+  // messageLabel = (event) => {
+  //   this.patch([event.target.id], 'addLabel', 'labels', [0, 1, 3])
+  // }
+
 
   toggleMessage = () => {
-    if (this.state.composeMessage === true) {
+    this.setState({composeMessage: !(this.state.composeMessage)})
+  }
+
+  toggleBody = () => {
+    if (this.state.readMessage === true) {
       this.setState({
-        composeMessage: false
+        readMessage: false
       })
     } else {
         this.setState({
-          composeMessage: true
+          readMessage: true
         })
       }
     }
-    
-  // starClick = () => {
-  //   if(this.state.starMessage === true) {
-  //     this.setState({
-  //       starMessage: false
-  //     })
-  //   } else {
-  //     this.setState({
-  //       starMessage: true 
-  //     })
-  //   }
-  // }
-
 
   render() {
     return (
       <div className="bodyInbox">
       <Toolbar toggleMessage={this.toggleMessage} composeMessage={this.state.composeMessage}/>
       <Compose composeMessage={this.state.composeMessage}/>
-      <Message messages={this.state.messages} starMessage={this.state.starMessage} markStarred={this.markStarred}/> 
+      <Message messages={this.state.messages} markStarred={this.markStarred} markSelect={this.markSelect} messageRead={this.messageRead} toggleBody={this.toggleBody}/> 
       </div>
     );
   }
