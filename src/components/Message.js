@@ -5,7 +5,7 @@ const Message = (props) => {
     return props.messages.map((message) => {
     return (
         <>
-        <div id={message.id} onClick={props.toggleBody} className={`row message ${message.read ? 'read' : 'unread'}`}>
+        <div id={message.id} onClick={props.toggleBody} className={`row message ${message.read ? 'read' : 'unread'} ${message.selected ? 'selected' : ''}`}>
             <div className="col-xs-1">
                 <div className="row">
                     <div className="col-xs-2">

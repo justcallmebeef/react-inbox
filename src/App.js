@@ -60,10 +60,22 @@ class App extends Component {
     this.patch([event.target.id], 'read', 'read', true)
   }
 
-  // messageLabel = (event) => {
-  //   this.patch([event.target.id], 'addLabel', 'labels', [0, 1, 3])
-  // }
+  messageLabel = (event) => {
+    let selected = this.state.messages.filter(item => item.selected === true)
+    selected.map(item => this.patch(item.id, 'addLabel', 'labels', event.target.value))
+  }
 
+  markAsRead = (event) => {
+    event.preventDefault()
+    let selected = this.state.messages.filter(item => item.selected === true)
+    selected.map(item => this.patch(item.id, 'read', 'read', true))
+  }
+
+  markAsUnread = (event) => {
+    event.preventDefault()
+    let selected = this.state.messages.filter(item => item.selected === true)
+    selected.map(item => this.patch(item.id, 'read', 'read', false))
+  }
 
   toggleMessage = () => {
     this.setState({composeMessage: !(this.state.composeMessage)})
@@ -84,7 +96,7 @@ class App extends Component {
   render() {
     return (
       <div className="bodyInbox">
-      <Toolbar toggleMessage={this.toggleMessage} composeMessage={this.state.composeMessage}/>
+      <Toolbar toggleMessage={this.toggleMessage} messageRead={this.messageRead} markAsRead={this.markAsRead} markAsUnread={this.markAsUnread} messageLabel={this.messageLabel} composeMessage={this.state.composeMessage}/>
       <Compose composeMessage={this.state.composeMessage}/>
       <Message messages={this.state.messages} markStarred={this.markStarred} markSelect={this.markSelect} messageRead={this.messageRead} toggleBody={this.toggleBody}/> 
       </div>

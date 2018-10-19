@@ -18,11 +18,11 @@ return (
                 <i className="fa fa-minus-square-o"></i>
             </button>
 
-            <button className="btn btn-default">Mark As Read</button>
+            <button onClick={props.markAsRead} className="btn btn-default">Mark As Read</button>
 
-            <button className="btn btn-default">Mark As Unread</button>
+            <button onClick={props.markAsUnread} className="btn btn-default">Mark As Unread</button>
 
-            <select className="form-control label-select">
+            <select onChange={props.messageLabel} className="form-control label-select">
                 <option>Apply label</option>
                 <option value="dev">dev</option>
                 <option value="personal">personal</option>
