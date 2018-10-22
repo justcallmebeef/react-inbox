@@ -2,12 +2,24 @@ import React from 'react';
 
 
 const Toolbar = (props) => {
+
+        let count = 0
+        let addAnS = true
+        props.messages.map(unread => {
+          if (unread.read === false) {
+            count += 1
+          } 
+        })
+        if (count === 1) {
+            addAnS = false
+        }
+
 return (
     <div className="row toolbar">
         <div className="col-md-12">
             <p className="pull-right">
-                <span className="badge badge">2</span>
-                unread messages
+                <span className="badge badge">{count}</span>
+                {`unread message${addAnS ? 's' : ''}`}
             </p>
 
             <a onClick={props.toggleMessage} className="btn btn-danger">
