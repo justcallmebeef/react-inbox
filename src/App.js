@@ -10,7 +10,6 @@ class App extends Component {
     this.state = {
       messages: [],
       composeMessage: true,
-      readMessage: true, 
     }
   }
 
@@ -94,24 +93,12 @@ class App extends Component {
     this.setState({composeMessage: !(this.state.composeMessage)})
   }
 
-  toggleBody = () => {
-    if (this.state.readMessage === true) {
-      this.setState({
-        readMessage: false
-      })
-    } else {
-        this.setState({
-          readMessage: true
-        })
-      }
-    }
-
   render() {
     return (
       <div className="bodyInbox">
       <Toolbar toggleMessage={this.toggleMessage} messageRead={this.messageRead} markAsRead={this.markAsRead} markAsUnread={this.markAsUnread} messageLabel={this.messageLabel} messageRemoveLabel={this.messageRemoveLabel} composeMessage={this.state.composeMessage}/>
       <Compose composeMessage={this.state.composeMessage}/>
-      <Message messages={this.state.messages} markStarred={this.markStarred} markSelect={this.markSelect} messageRead={this.messageRead} toggleBody={this.toggleBody}/> 
+      <Message messages={this.state.messages} markStarred={this.markStarred} markSelect={this.markSelect} messageRead={this.messageRead}/> 
       </div>
     );
   }
