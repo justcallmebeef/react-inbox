@@ -10,6 +10,8 @@ class App extends Component {
     this.state = {
       messages: [],
       composeMessage: true,
+      subject: "", 
+      body: "", 
     }
   }
 
@@ -40,6 +42,45 @@ class App extends Component {
     const posted = await response.json()
     this.setState({
       messages: posted
+    })
+  }
+
+  postMessage = (e) => {
+      var post = {
+        body: this.state.body, 
+        id: this.state.messages.length,
+        labels: [],
+        read: false, 
+        selected: false,
+        starred: false, 
+        subject: this.state.subject,
+      }
+      fetch('http://localhost:8082/api/messages', {
+      method: 'POST',
+      body: JSON.stringify(post),
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+    .then (response => response.json())
+    .then (response => {
+      this.setState({
+      messages: [...this.state.messages, response], 
+      subject: "",
+      body: "", 
+    })
+  })
+  }
+
+  subject = (event) => {
+    this.setState ({
+      subject: event.target.value
+    })
+  }
+
+  body = (event) => {
+    this.setState ({
+      body: event.target.value
     })
   }
 
@@ -97,7 +138,7 @@ class App extends Component {
     return (
       <div className="bodyInbox">
       <Toolbar messages={this.state.messages} unreadMessages={this.unreadMessages} toggleMessage={this.toggleMessage} messageRead={this.messageRead} markAsRead={this.markAsRead} markAsUnread={this.markAsUnread} messageLabel={this.messageLabel} messageRemoveLabel={this.messageRemoveLabel} composeMessage={this.state.composeMessage}/>
-      <Compose composeMessage={this.state.composeMessage}/>
+      <Compose postMessage={this.postMessage} subject={this.subject} body={this.body} composeMessage={this.state.composeMessage}/>
       <Message messages={this.state.messages} markStarred={this.markStarred} markSelect={this.markSelect} messageRead={this.messageRead}/> 
       </div>
     );
