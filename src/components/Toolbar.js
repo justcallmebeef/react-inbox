@@ -22,15 +22,15 @@ return (
 
             <button onClick={props.markAsUnread} className="btn btn-default">Mark As Unread</button>
 
-            <select onChange={props.messageLabel} className="form-control label-select">
-                <option>Apply label</option>
+            <select onChange={(e) => {props.messageLabel(e); e.target.selectedIndex = 0}} className="form-control label-select">
+                <option selected disabled>Apply label</option>
                 <option value="dev">dev</option>
                 <option value="personal">personal</option>
                 <option value="gschool">gschool</option>
             </select>
 
-            <select className="form-control label-select">
-                <option>Remove label</option>
+            <select onChange={(e) => {props.messageRemoveLabel(e); e.target.selectedIndex = 0}} className="form-control label-select">
+                <option selected disabled>Remove label</option>
                 <option value="dev">dev</option>
                 <option value="personal">personal</option>
                 <option value="gschool">gschool</option>

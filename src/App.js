@@ -62,8 +62,21 @@ class App extends Component {
 
   messageLabel = (event) => {
     let selected = this.state.messages.filter(item => item.selected === true)
-    selected.map(item => this.patch(item.id, 'addLabel', 'labels', event.target.value))
+    selected.map(item => this.patch([item.id], 'addLabel', 'label', event.target.value))
   }
+
+  messageRemoveLabel = (event) => {
+    let selected = this.state.messages.filter(item => item.selected === true)
+    selected.map(item => this.patch([item.id], 'removeLabel', 'label', event.target.value))
+  }
+
+  // messageLabel = (event) => {
+  //   this.state.messages.map(item => {
+  //     if (item.selected === true) {
+  //     return this.patch([item.id], 'addLabel', 'label', event.target.value)
+  // }
+  // })
+  // }
 
   markAsRead = (event) => {
     event.preventDefault()
@@ -96,7 +109,7 @@ class App extends Component {
   render() {
     return (
       <div className="bodyInbox">
-      <Toolbar toggleMessage={this.toggleMessage} messageRead={this.messageRead} markAsRead={this.markAsRead} markAsUnread={this.markAsUnread} messageLabel={this.messageLabel} composeMessage={this.state.composeMessage}/>
+      <Toolbar toggleMessage={this.toggleMessage} messageRead={this.messageRead} markAsRead={this.markAsRead} markAsUnread={this.markAsUnread} messageLabel={this.messageLabel} messageRemoveLabel={this.messageRemoveLabel} composeMessage={this.state.composeMessage}/>
       <Compose composeMessage={this.state.composeMessage}/>
       <Message messages={this.state.messages} markStarred={this.markStarred} markSelect={this.markSelect} messageRead={this.messageRead} toggleBody={this.toggleBody}/> 
       </div>
