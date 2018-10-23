@@ -11,7 +11,7 @@ class App extends Component {
       messages: [],
       composeMessage: true,
       bodyMessage: true, 
-      selectButton: false,
+      checkButton: false,
       subject: "", 
       body: "",
     }
