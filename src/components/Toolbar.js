@@ -27,7 +27,10 @@ return (
             </a>
 
             <button onClick={props.bulkSelect} className="btn btn-default">
-                <i className="fa fa-minus-square-o"></i>
+                <i className={`fa ${props.checkButton ? 'fa fa-square-o' : 'fa fa-check-square-o'}`}></i>
+                {/* fa fa-check-square-o */}
+                {/* fa fa-minus-square-o */}
+                {/* fa fa-square-o */}
             </button>
 
             <button onClick={props.markAsRead} className="btn btn-default">Mark As Read</button>

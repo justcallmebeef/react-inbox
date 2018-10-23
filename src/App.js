@@ -11,7 +11,7 @@ class App extends Component {
       messages: [],
       composeMessage: true,
       bodyMessage: true, 
-      selectButton: true,
+      selectButton: false,
       subject: "", 
       body: "",
     }
@@ -23,7 +23,6 @@ class App extends Component {
     this.setState({
       messages: [...data,]
     })
-    console.log(data)
   }
 
   patch = async (id, command, attribute, value) => {
@@ -69,8 +68,6 @@ class App extends Component {
     .then ((response) => {
       this.setState({
       messages: [...this.state.messages, response], 
-      subject: "",
-      body: "", 
     })
   })
   }
@@ -146,30 +143,40 @@ class App extends Component {
     if (selected.length === messages.length) {
       selected.map(item => { this.patch([item.id], 'select', 'selected') })
     } else if (notSelected.length <= messages.length) {
-      notSelected.map(item => { this.patch([item.id], 'select', 'selected', true) })
+      notSelected.map(item => { this.patch([item.id], 'select', 'selected') })
     }
-  }
-
-  selectButton = () => {
-    let messages = this.state.messages 
-    let selected = this.state.messages.filter(item => item.selected === true)
-    let notSelected = this.state.messages.filter(item => item.selected === false)
 
     if (selected.length === messages.length) {
       this.setState({
-        selectButton: true
+        checkButton: true
       })
-    } else if (notSelected.length === messages.length) {
+    } else if (notSelected.length <= messages.length) {
       this.setState({
-        selectButton: false
+        checkButton: false
       })
     }
   }
+
+  // selectButton = () => {
+  //   let messages = this.state.messages 
+  //   let selected = this.state.messages.filter(item => item.selected === true)
+  //   let notSelected = this.state.messages.filter(item => item.selected === false)
+
+  //   if (selected.length === messages.length) {
+  //     this.setState({
+  //       checkButton: true
+  //     })
+  //   } else if (notSelected.length === messages.length) {
+  //     this.setState({
+  //       checkButton: false
+  //     })
+  //   }
+  // }
 
   render() {
     return (
       <div className="bodyInbox">
-      <Toolbar bulkSelect={this.bulkSelect} deleteMessage={this.deleteMessage} messages={this.state.messages} unreadMessages={this.unreadMessages} toggleMessage={this.toggleMessage} messageRead={this.messageRead} markAsRead={this.markAsRead} markAsUnread={this.markAsUnread} messageLabel={this.messageLabel} messageRemoveLabel={this.messageRemoveLabel} composeMessage={this.state.composeMessage}/>
+      <Toolbar checkButton={this.state.checkButton} selectButton={this.selectButton} bulkSelect={this.bulkSelect} deleteMessage={this.deleteMessage} messages={this.state.messages} unreadMessages={this.unreadMessages} toggleMessage={this.toggleMessage} messageRead={this.messageRead} markAsRead={this.markAsRead} markAsUnread={this.markAsUnread} messageLabel={this.messageLabel} messageRemoveLabel={this.messageRemoveLabel} composeMessage={this.state.composeMessage}/>
       <Compose postMessage={this.postMessage} subject={this.subject} body={this.body} composeMessage={this.state.composeMessage}/>
       <Message bodyMessage={this.state.bodyMessage} showBody={this.showBody} toggleBody={this.toggleBody} messages={this.state.messages} markStarred={this.markStarred} markSelect={this.markSelect} messageRead={this.messageRead}/> 
       </div>
