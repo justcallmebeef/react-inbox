@@ -10,8 +10,10 @@ class App extends Component {
     this.state = {
       messages: [],
       composeMessage: true,
+      bodyMessage: true, 
+      selectButton: true,
       subject: "", 
-      body: "", 
+      body: "",
     }
   }
 
@@ -45,13 +47,14 @@ class App extends Component {
     })
   }
 
-  postMessage = (e) => {
+  postMessage = () => {
       var post = {
         body: this.state.body, 
         id: this.state.messages.length,
         labels: [],
         read: false, 
         selected: false,
+        show: false, 
         starred: false, 
         subject: this.state.subject,
       }
@@ -63,7 +66,7 @@ class App extends Component {
       }
     })
     .then (response => response.json())
-    .then (response => {
+    .then ((response) => {
       this.setState({
       messages: [...this.state.messages, response], 
       subject: "",
@@ -92,9 +95,10 @@ class App extends Component {
     this.patch([event.target.id], 'select', 'selected')
   }
 
-  // deleteMessage = (event) => {
-  //   this.patch([event.target.id], 'delete', '')
-  // }
+  deleteMessage = (event) => {
+    let selected = this.state.messages.filter(item => item.selected === true)
+    selected.map(item => this.patch([item.id], 'delete'))
+  }
 
   messageRead = (event) => {
     this.patch([event.target.id], 'read', 'read', true)
@@ -110,14 +114,6 @@ class App extends Component {
     selected.map(item => this.patch([item.id], 'removeLabel', 'label', event.target.value))
   }
 
-  // messageLabel = (event) => {
-  //   this.state.messages.map(item => {
-  //     if (item.selected === true) {
-  //     return this.patch([item.id], 'addLabel', 'label', event.target.value)
-  // }
-  // })
-  // }
-
   markAsRead = (event) => {
     event.preventDefault()
     let selected = this.state.messages.filter(item => item.selected === true)
@@ -130,16 +126,52 @@ class App extends Component {
     selected.map(item => this.patch(item.id, 'read', 'read', false))
   }
 
+  toggleBody = (event) => {
+    this.patch(event, 'read', 'read', true)
+  }
+
   toggleMessage = () => {
     this.setState({composeMessage: !(this.state.composeMessage)})
+  }
+
+  showBody = (event) => {
+    this.patch(event, 'show', 'show', false)
+  }
+
+  bulkSelect = () => {
+    let messages = this.state.messages 
+    let selected = this.state.messages.filter(item => item.selected === true)
+    let notSelected = this.state.messages.filter(item => item.selected === false)
+
+    if (selected.length === messages.length) {
+      selected.map(item => { this.patch([item.id], 'select', 'selected') })
+    } else if (notSelected.length <= messages.length) {
+      notSelected.map(item => { this.patch([item.id], 'select', 'selected', true) })
+    }
+  }
+
+  selectButton = () => {
+    let messages = this.state.messages 
+    let selected = this.state.messages.filter(item => item.selected === true)
+    let notSelected = this.state.messages.filter(item => item.selected === false)
+
+    if (selected.length === messages.length) {
+      this.setState({
+        selectButton: true
+      })
+    } else if (notSelected.length === messages.length) {
+      this.setState({
+        selectButton: false
+      })
+    }
   }
 
   render() {
     return (
       <div className="bodyInbox">
-      <Toolbar messages={this.state.messages} unreadMessages={this.unreadMessages} toggleMessage={this.toggleMessage} messageRead={this.messageRead} markAsRead={this.markAsRead} markAsUnread={this.markAsUnread} messageLabel={this.messageLabel} messageRemoveLabel={this.messageRemoveLabel} composeMessage={this.state.composeMessage}/>
+      <Toolbar bulkSelect={this.bulkSelect} deleteMessage={this.deleteMessage} messages={this.state.messages} unreadMessages={this.unreadMessages} toggleMessage={this.toggleMessage} messageRead={this.messageRead} markAsRead={this.markAsRead} markAsUnread={this.markAsUnread} messageLabel={this.messageLabel} messageRemoveLabel={this.messageRemoveLabel} composeMessage={this.state.composeMessage}/>
       <Compose postMessage={this.postMessage} subject={this.subject} body={this.body} composeMessage={this.state.composeMessage}/>
-      <Message messages={this.state.messages} markStarred={this.markStarred} markSelect={this.markSelect} messageRead={this.messageRead}/> 
+      <Message bodyMessage={this.state.bodyMessage} showBody={this.showBody} toggleBody={this.toggleBody} messages={this.state.messages} markStarred={this.markStarred} markSelect={this.markSelect} messageRead={this.messageRead}/> 
       </div>
     );
   }

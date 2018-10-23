@@ -26,7 +26,7 @@ return (
                 <i className={`fa ${props.composeMessage ? 'fa-plus' : 'fa-minus' }`}></i>
             </a>
 
-            <button className="btn btn-default">
+            <button onClick={props.bulkSelect} className="btn btn-default">
                 <i className="fa fa-minus-square-o"></i>
             </button>
 
@@ -48,7 +48,7 @@ return (
                 <option value="gschool">gschool</option>
             </select>
 
-            <button className="btn btn-default">
+            <button onClick={props.deleteMessage} className="btn btn-default">
                 <i className="fa fa-trash-o"></i>
             </button>
         </div>
