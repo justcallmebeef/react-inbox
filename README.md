@@ -3,7 +3,7 @@
 The React Inbox uses a modern layout with a user friendly interface. 
 
 ## How it works 
-The website acts like a common email application. The user can compose a messages. 
+The website acts like a common email application. The user can compose a message. 
 
 ![](./gifsForReadMe/Compose-Message.gif)
 
