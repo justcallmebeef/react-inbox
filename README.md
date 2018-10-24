@@ -9,16 +9,16 @@ The website acts like a common email application. The user can compose a message
 
 The user can delete messages. 
 
-Delete gif 
+![](./gifsForReadMe/DeleteMessages.gif)
 
 Adding labels and starring messages makes it easier to organize. 
 
-Labels/Starring gif 
+![](./gifsForReadMe/Labels-Starring.gif) 
 
 The user has the ability to grab messages in bulk. The icon will change accordingly and even changes when there are only some messages selected. 
 
-Bulk/Select/Deselect/Some gif 
+![](./gifsForReadMe/Bulk.gif)
 
 Finally, the user can change whether or not a messages has been read or unread. This will be reflected in the unread messages count in the upper right corner. 
 
-Read/Unread gif 
+![](./gifsForReadMe/Read-Unread.gif)
