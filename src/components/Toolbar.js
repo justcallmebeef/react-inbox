@@ -2,16 +2,26 @@ import React from 'react';
 
 
 const Toolbar = (props) => {
-
         let count = 0
         let addAnS = true
         props.messages.map(unread => {
-          if (unread.read === false) {
-            count += 1
-          } 
+            if (unread.read === false) {
+                count += 1
+            } 
         })
         if (count === 1) {
             addAnS = false
+        }
+
+        let checkButton: false 
+        let someButton: false 
+        let messages = props.messages.length
+        let selected = props.messages.filter(item => item.selected)
+      
+        if (messages === selected.length) {
+            checkButton = !checkButton
+        } else if (selected.length === 0) {
+            someButton = !someButton
         }
 
 return (
@@ -27,10 +37,7 @@ return (
             </a>
 
             <button onClick={props.bulkSelect} className="btn btn-default">
-                <i className={`fa ${props.checkButton ? 'fa fa-square-o' : 'fa fa-check-square-o'}`}></i>
-                {/* fa fa-check-square-o */}
-                {/* fa fa-minus-square-o */}
-                {/* fa fa-square-o */}
+                <i className={`fa ${checkButton ? 'fa-check-square-o' : someButton ? 'fa-square-o' : 'fa-minus-square-o'}`}></i>
             </button>
 
             <button onClick={props.markAsRead} className="btn btn-default">Mark As Read</button>

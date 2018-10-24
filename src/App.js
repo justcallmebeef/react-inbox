@@ -11,7 +11,6 @@ class App extends Component {
       messages: [],
       composeMessage: true,
       bodyMessage: true, 
-      checkButton: false,
       subject: "", 
       body: "",
     }
@@ -145,38 +144,12 @@ class App extends Component {
     } else if (notSelected.length <= messages.length) {
       notSelected.map(item => { this.patch([item.id], 'select', 'selected') })
     }
-
-    if (selected.length === messages.length) {
-      this.setState({
-        checkButton: true
-      })
-    } else if (notSelected.length <= messages.length) {
-      this.setState({
-        checkButton: false
-      })
-    }
-  }
-
-  // selectButton = () => {
-  //   let messages = this.state.messages 
-  //   let selected = this.state.messages.filter(item => item.selected === true)
-  //   let notSelected = this.state.messages.filter(item => item.selected === false)
-
-  //   if (selected.length === messages.length) {
-  //     this.setState({
-  //       checkButton: true
-  //     })
-  //   } else if (notSelected.length === messages.length) {
-  //     this.setState({
-  //       checkButton: false
-  //     })
-  //   }
-  // }
+}
 
   render() {
     return (
       <div className="bodyInbox">
-      <Toolbar checkButton={this.state.checkButton} selectButton={this.selectButton} bulkSelect={this.bulkSelect} deleteMessage={this.deleteMessage} messages={this.state.messages} unreadMessages={this.unreadMessages} toggleMessage={this.toggleMessage} messageRead={this.messageRead} markAsRead={this.markAsRead} markAsUnread={this.markAsUnread} messageLabel={this.messageLabel} messageRemoveLabel={this.messageRemoveLabel} composeMessage={this.state.composeMessage}/>
+      <Toolbar bulkSelect={this.bulkSelect} deleteMessage={this.deleteMessage} messages={this.state.messages} toggleMessage={this.toggleMessage} messageRead={this.messageRead} markAsRead={this.markAsRead} markAsUnread={this.markAsUnread} messageLabel={this.messageLabel} messageRemoveLabel={this.messageRemoveLabel} composeMessage={this.state.composeMessage}/>
       <Compose postMessage={this.postMessage} subject={this.subject} body={this.body} composeMessage={this.state.composeMessage}/>
       <Message bodyMessage={this.state.bodyMessage} showBody={this.showBody} toggleBody={this.toggleBody} messages={this.state.messages} markStarred={this.markStarred} markSelect={this.markSelect} messageRead={this.messageRead}/> 
       </div>
