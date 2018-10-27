@@ -25,7 +25,7 @@ The React Inbox uses a modern layout with a user friendly interface.
 
 ### Technologies 
 
-React, CSS, Postman, Bootstrap, Flexbox, and JavaScript
+React.js, CSS, Postman, Bootstrap, Flexbox, and JavaScript
 
 ## Author
 
